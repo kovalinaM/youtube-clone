@@ -1,7 +1,7 @@
 <template>
     <a href="#" class="mb-7 group">
-        <VideoItemThumbnail></VideoItemThumbnail>
-        <VideoItemInfo></VideoItemInfo>
+        <VideoItemThumbnail :index="index"></VideoItemThumbnail>
+        <VideoItemInfo :index="index"></VideoItemInfo>
       </a>
 </template>
 
@@ -10,6 +10,10 @@ import VideoItemThumbnail from './VideoItemThumbnail.vue'
 import VideoItemInfo from './VideoItemInfo.vue'
 
 export default {
-  components: {VideoItemThumbnail, VideoItemInfo}
+  components: {VideoItemThumbnail, VideoItemInfo},
+  props: ['index']
+
 }
+
+
 </script>
