@@ -5,7 +5,6 @@
 </template>
 
 <script>
-
 import SidebarContent from './SidebarContent.vue'
 
 export default {

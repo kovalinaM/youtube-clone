@@ -1,15 +1,24 @@
 <template>
-  <TheSidebarMobileOverlay>
-    <aside class="w-64 max-h-screen overflow-auto bg-white">
-            <section class="flex items-center p-4 border-b sticky top-0 bg-white">
-                <button class="ml-2 mr-6 focus:outline-none">
-                    <BaseIcon name="menu"></BaseIcon>
-                </button>
-                <LogoMain></LogoMain>
-            </section>
-            <SidebarContent></SidebarContent>
-        </aside>
-  </TheSidebarMobileOverlay>
+  <transition enter-active-class="transition-opacity ease-linear duration-200" enter-from-class="opacity-0"
+    enter-to-class="opacity-100" leave-active-class="transition-opacity ease-linear duration-200"
+    leave-from-class="opacity-100" leave-to-class="opacity-0">
+    <TheSidebarMobileOverlay @click="$emit('close')" v-show="isOpen" />
+  </transition>
+
+  <transition enter-active-class="transition ease-in-out duration-200 transform" enter-from-class="-translate-x-full"
+    enter-to-class="translate-x-0" leave-active-class="transition ease-in-out duration-200 transform"
+    leave-from-class="translate-x-0" leave-to-class="-translate-x-full">
+    <aside v-show="isOpen" ref="mobileSidebar" @keydown.esc="$emit('close')" tabindex="-1"
+      class="w-64 max-h-screen overflow-auto bg-white fixed z-40 outline-none">
+      <section class="flex items-center p-4 border-b sticky top-0 bg-white">
+        <button @click="$emit('close')" class="ml-2 mr-6 focus:outline-none">
+          <BaseIcon name="menu"></BaseIcon>
+        </button>
+        <LogoMain></LogoMain>
+      </section>
+      <SidebarContent></SidebarContent>
+    </aside>
+  </transition>
 </template>
 
 <script>
@@ -19,6 +28,25 @@ import LogoMain from './LogoMain.vue'
 import BaseIcon from './BaseIcon.vue'
 
 export default {
-  components: { TheSidebarMobileOverlay, SidebarContent, LogoMain, BaseIcon }
+  components: { TheSidebarMobileOverlay, SidebarContent, LogoMain, BaseIcon },
+
+  props: {
+    isOpen: Boolean
+  },
+
+  emits: {
+    close: null
+  },
+
+  watch: {
+    isOpen() {
+      this.$nextTick(() => this.isOpen && this.$refs.mobileSidebar.focus())
+      // this.$nextTick(() => {
+      //   if (this.isOpen) {
+      //     this.$refs.mobileSidebar.focus()
+      //   }
+      // });
+    }
+  }
 }
 </script>
