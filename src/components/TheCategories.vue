@@ -16,7 +16,7 @@ export default {
     CategoryItem
   },
 
-  prps: {
+  props: {
     isSidebarOpen: Boolean
   },
 

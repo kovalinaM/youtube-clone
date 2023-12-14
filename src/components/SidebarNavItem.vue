@@ -19,8 +19,6 @@ export default {
 
     computed: {
         classes() {
-            // 'flex items-center px-6 py-2 text-sm font-medium text-gray-800 bg-gray-200 hover:bg-gray-300'
-            // 'flex items-center px-6 py-2 text-sm hover:bg-gray-100'
             const classes = ['flex', 'items-center', 'px-6', 'py-2', 'text-sm']
 
             return this.isActive
