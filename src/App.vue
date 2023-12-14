@@ -1,6 +1,6 @@
 <script>
 import TheHeader from './components/TheHeader.vue'
-import TheSidebarSmall from './components/TheSidebarSmall.vue'
+import TheSidebarCompact from './components/TheSidebarCompact.vue'
 import TheSidebar from './components/TheSidebar.vue'
 import TheSidebarMobile from './components/TheSidebarMobile.vue'
 import TheCategories from './components/TheCategories.vue'
@@ -9,7 +9,7 @@ import TheVideos from './components/TheVideos.vue'
 export default {
   components: {
     TheHeader,
-    TheSidebarSmall,
+    TheSidebarCompact,
     TheSidebar,
     TheSidebarMobile,
     TheCategories,
@@ -19,27 +19,48 @@ export default {
   data() {
     return {
       isMobileSidebarOpen: false,
-      sidebarState: null
+      isCompactSidebarOpen: false,
+      isSidebarOpen: false,
+      isCompactSidebarActive: false
     }
   },
 
   mounted() {
     if (window.innerWidth >= 768 && window.innerWidth < 1280) {
-      this.sidebarState = 'compact'
+      this.isCompactSidebarActive = true
     }
 
     if (window.innerWidth >= 1280) {
-      this.sidebarState = 'normal'
+      this.isCompactSidebarActive = false
     }
+
+    this.onResize()
+
+    window.addEventListener('resize', this.onResize)
 
   },
 
   methods: {
+    onResize() {
+      if(window.innerWidth < 768) {
+        this.isCompactSidebarOpen = false,
+        this.isSidebarOpen = false
+      } else if ( window.innerWidth < 1280) {
+        this.isCompactSidebarOpen = true,
+        this.isSidebarOpen = false
+      } else {
+        this.isCompactSidebarOpen = this.isCompactSidebarActive ,
+        this.isSidebarOpen = !this.isCompactSidebarActive 
+      }
+    },
+
     toggleSidebar() {
       if (window.innerWidth >= 1280) {
-        this.sidebarState = this.sidebarState == 'normal' ? 'compact' : 'normal'
+        this.isCompactSidebarActive = !this.isCompactSidebarActive
+
+        this.onResize()
       } else {
-        this.openMobilsSidebar()
+        this.openMobileSidebar()
       }
     },
 
@@ -57,13 +78,13 @@ export default {
 <template>
   <TheHeader @toggle-sidebar="toggleSidebar"></TheHeader>
   <!-- Small sidebar -->
-  <TheSidebarSmall></TheSidebarSmall>
+  <TheSidebarCompact v-if="isCompactSidebarOpen"></TheSidebarCompact>
   <!-- Sidebar -->
-  <TheSidebar></TheSidebar>
+  <TheSidebar v-if="isSidebarOpen"></TheSidebar>
   <!-- Mobile sidebar -->
   <TheSidebarMobile :is-open="isMobileSidebarOpen" @close="closeMobileSidebar"></TheSidebarMobile>
   <!-- Categories -->
-  <TheCategories></TheCategories>
+  <TheCategories :is-sidebar-open="isSidebarOpen"></TheCategories>
   <!-- Videos -->
-  <TheVideos></TheVideos>
+  <TheVideos :is-sidebar-open="isSidebarOpen"></TheVideos>
 </template>
