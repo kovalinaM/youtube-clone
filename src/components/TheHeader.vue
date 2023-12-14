@@ -30,14 +30,8 @@
             clip-rule="evenodd"></path>
         </svg>
       </button>
-      <button class="relative group p-2 focus:outline-none">
-        <BaseIcon name="viewGrid" class="w-5 h-5"></BaseIcon>
-        <TheDropdownApps></TheDropdownApps>
-      </button>
-      <button class="relative group p-2 focus:outline-none">
-        <BaseIcon name="dotsVertical"></BaseIcon>
-        <TheDropdownSettings></TheDropdownSettings>
-      </button>
+      <TheDropdownApps></TheDropdownApps>
+      <TheDropdownSettings></TheDropdownSettings>
       <ButtonLogin></ButtonLogin>
     </div>
   </header>
