@@ -1,8 +1,10 @@
 <template>
     <div class="relative">
-        <button @click="isOpen = !isOpen" class="relative group p-2 focus:outline-none">
-            <BaseIcon name="dotsVertical"></BaseIcon>
-        </button>
+        <BaseTooltip text="Settings">
+            <button @click="isOpen = !isOpen" class="relative group p-2 focus:outline-none">
+                <BaseIcon name="dotsVertical"></BaseIcon>
+            </button>
+        </BaseTooltip>
         <transition enter-from-class="transition opacity-0 scale-95" enter-active-class="transition ease-out duration-100"
             enter-to-class="transform opacity-100 scale-100" leave-from-class="transform opacity-100 scale-100"
             leave-active-class="transition ease-in duration-75" leave-to-class="transform opacity-0 scale-95">
@@ -27,9 +29,10 @@
 <script>
 import DropdownSettingListItem from './DropdownSettingListItem.vue'
 import BaseIcon from './BaseIcon.vue'
+import BaseTooltip from './BaseTooltip.vue'
 
 export default {
-    components: { DropdownSettingListItem, BaseIcon },
+    components: { DropdownSettingListItem, BaseIcon, BaseTooltip },
     data() {
         return {
             isOpen: false,
