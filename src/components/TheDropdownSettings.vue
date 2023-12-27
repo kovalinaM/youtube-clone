@@ -9,7 +9,7 @@
             enter-to-class="transform opacity-100 scale-100" leave-from-class="transform opacity-100 scale-100"
             leave-active-class="transition ease-in duration-75" leave-to-class="transform opacity-0 scale-95">
             <div v-show="isOpen" ref="dropdown" @keydown.esc="isOpen = false" tabindex="-1"
-                class="absolute top-9 -right-full sm:right-0 bg-white w-72 border border-t-0 focus:outline-none">
+                :class="dropdownClasses">
                 <section class="py-2 border-b">
                     <ul>
                         <DropdownSettingListItem v-for="listItem in listItems" :key="listItem.label" :icon="listItem.icon"
@@ -72,6 +72,23 @@ export default {
                     icon: 'calculator',
                     withSubMenu: false
                 }
+            ]
+        }
+    },
+
+    computed: {
+        dropdownClasses() {
+            return [
+            'z-10', 
+            'absolute', 
+            'top-9', 
+            '-right-full', 
+            'sm:right-0', 
+            'bg-white', 
+            'w-72', 
+            'border', 
+            'border-t-0', 
+            'focus:outline-none'
             ]
         }
     },

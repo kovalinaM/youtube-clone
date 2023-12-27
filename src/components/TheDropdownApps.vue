@@ -8,8 +8,7 @@
         <transition enter-from-class="transition opacity-0 scale-95" enter-active-class="transition ease-out duration-100"
             enter-to-class="transform opacity-100 scale-100" leave-from-class="transform opacity-100 scale-100"
             leave-active-class="transition ease-in duration-75" leave-to-class="transform opacity-0 scale-95">
-            <div v-show="isOpen" ref="dropdown" @keydown.esc="isOpen = false" tabindex="-1"
-                class="absolute top-9 right-0 sm:left-0 bg-white w-60 border border-t-0 focus:outline-none">
+            <div v-show="isOpen" ref="dropdown" @keydown.esc="isOpen = false" tabindex="-1" :class="dropdownClasses">
                 <section class="py-2 border-b">
                     <ul>
                         <DropdownAppsListItem label="YouTube TV"></DropdownAppsListItem>
@@ -53,6 +52,23 @@ export default {
             }
 
         })
+    },
+
+    computed: {
+        dropdownClasses() {
+            return [
+                'z-10',
+                'absolute',
+                'top-9',
+                'right-0',
+                'sm:left-0',
+                'bg-white',
+                'w-60',
+                'border',
+                'border-t-0',
+                'focus:outline-none'
+            ]
+        }
     },
 
     watch: {
