@@ -34,15 +34,15 @@ export default {
 
   methods: {
     onResize() {
-      if(window.innerWidth < 768) {
+      if (window.innerWidth < 768) {
         this.isCompactSidebarOpen = false,
-        this.isSidebarOpen = false
-      } else if ( window.innerWidth < 1280) {
+          this.isSidebarOpen = false
+      } else if (window.innerWidth < 1280) {
         this.isCompactSidebarOpen = true,
-        this.isSidebarOpen = false
+          this.isSidebarOpen = false
       } else {
-        this.isCompactSidebarOpen = this.isCompactSidebarActive ,
-        this.isSidebarOpen = !this.isCompactSidebarActive 
+        this.isCompactSidebarOpen = this.isCompactSidebarActive,
+          this.isSidebarOpen = !this.isCompactSidebarActive
         this.isMobileSidebarOpen = false
       }
     },
@@ -69,15 +69,17 @@ export default {
 </script>
 
 <template>
-  <TheHeader @toggle-sidebar="toggleSidebar"></TheHeader>
+  <div class="fixed w-full z-30">
+    <TheHeader @toggle-sidebar="toggleSidebar"></TheHeader>
+    <!-- Categories -->
+    <TheCategories :is-sidebar-open="isSidebarOpen"></TheCategories>
+  </div>
   <!-- Small sidebar -->
   <TheSidebarCompact v-if="isCompactSidebarOpen"></TheSidebarCompact>
   <!-- Sidebar -->
   <TheSidebar v-if="isSidebarOpen"></TheSidebar>
   <!-- Mobile sidebar -->
   <TheSidebarMobile :is-open="isMobileSidebarOpen" @close="closeMobileSidebar"></TheSidebarMobile>
-  <!-- Categories -->
-  <TheCategories :is-sidebar-open="isSidebarOpen"></TheCategories>
   <!-- Videos -->
   <TheVideos :is-sidebar-open="isSidebarOpen"></TheVideos>
 </template>

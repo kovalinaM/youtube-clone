@@ -1,6 +1,6 @@
 <template>
-  <header class="flex justify-between fixed z-30 w-full">
-    <div class="lg:w-1/4 flex">
+  <header :class="classes">
+    <div :class="['lg:w-1/4', 'flex', isMobileSearchShown ? 'opacity-0' : 'opacity-100']">
       <div class="flex items-center xl:w-64 xl:bg-white pl-4">
         <button @click="$emit('toggleSidebar')" class="mr-3 sm:ml-2 sm:mr-6 focus:outline-none">
           <BaseIcon name="menu"></BaseIcon>
@@ -8,11 +8,8 @@
         <LogoMain></LogoMain>
       </div>
     </div>
-    <TheSearchMobile 
-      v-if="isMobileSearchShow"
-      @close="closeMobileSearch"
-    ></TheSearchMobile>
-    <div v-else class="flex items-center justify-end lg:w-1/4 sm:space-x-3 p-2 sm:px-4">
+    <TheSearchMobile v-if="isMobileSearchShown" @close="closeMobileSearch"></TheSearchMobile>
+    <div :class="['flex', 'items-center', 'justify-end', 'lg:w-1/4', 'sm:space-x-3', 'p-2', 'sm:px-4', isMobileSearchShown ? 'opacity-0' : 'opacity-100']">
       <BaseTooltip text="Search with your voice">
         <button class="sm:hidden p-2 focus:outline-none">
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -58,12 +55,19 @@ export default {
   data() {
     return {
       isSmallScreen: false,
-      isMobileSearchActive: false
+      isMobileSearchActive: false,
+      classes: [
+        'flex',
+        'justify-between',
+        'w-full',
+        'bg-white',
+        'bg-opacity-95'
+      ]
     }
   },
 
   computed: {
-    isMobileSearchShow() {
+    isMobileSearchShown() {
       return this.isSmallScreen && this.isMobileSearchActive;
     }
   },
@@ -78,7 +82,7 @@ export default {
       if (window.innerWidth < 640) {
         this.isSmallScreen = true;
         return
-      } 
+      }
 
       this.closeMobileSearch();
       this.isSmallScreen = false;
