@@ -1,8 +1,8 @@
 <template>
     <DropdownSettingsHeader title="Choose your language" @back="$emit('select-menu', 'main')"></DropdownSettingsHeader>
     <section class="py-2">
-        <ul class="max-h-96 overflow-auto">
-            <DropdownSettingListItem v-for="(languageName, languageId) in languages" :key="languageName" :label="languageName"
+        <ul>
+            <DropdownSettingListItem v-for="language, languageId in languages" :key="language" :label="language"
                 :active="languageId === selectedLanguageId" @click="selectedLanguageId = languageId">
             </DropdownSettingListItem>
         </ul>
