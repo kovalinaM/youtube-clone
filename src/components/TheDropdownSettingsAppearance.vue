@@ -1,10 +1,10 @@
 <template>
-    <DropdownSettingsHeader title="Appearance" @back="$emit('select-menu', 'main')"></DropdownSettingsHeader>
+    <DropdownSettingsHeader title="Appearance" @back="$emit('select-menu', 'main')"/>
     <section class="py-2">
         <div class="text-gray-500 text-xs p-3">Setting applies to this browser only</div>
         <ul>
             <DropdownSettingListItem 
-                v-for="themeName, themeId in themes" 
+                v-for="(themeName, themeId) in themes" 
                 :key="themeName" :label="themeName" 
                 :active="themeId === selectedThemeId"
                 @click="selectedThemeId = themeId">

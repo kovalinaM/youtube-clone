@@ -1,23 +1,22 @@
 <template>
     <section class="py-2 border-b">
         <ul>
-            <DropdownSettingListItem 
-                v-for="listItem in listItems.slice(0,8)"
-                :key="listItem.label" 
-                :icon="listItem.icon"
+            <DropdownSettingsListItem 
+                v-for="listItem in listItems.slice(0, 8)" 
+                :key="listItem.label"
                 :label="listItem.label" 
+                :icon="listItem.icon" 
                 :with-sub-menu="listItem.withSubMenu"
-                @click.stop="$emit('select-menu', listItem.id)"
-                ></DropdownSettingListItem>
+                @click.stop="$emit('select-menu', listItem.id)" />
         </ul>
     </section>
     <section class="py-2">
         <ul>
-            <DropdownSettingListItem 
+            <DropdownSettingsListItem 
                 :label="listItems[8].label" 
-                :with-sub-menu="listItems[8].withSubMenu"
-                @click.stop="$emit('select-menu', listItems[8].id)"
-                ></DropdownSettingListItem>
+                :icon="listItems[8].icon" 
+                :with-sub-menu="listItems[8].withSubMenu" 
+                @click.stop="$emit('select-menu', listItems[8].id)" />
         </ul>
     </section>
 </template>
@@ -26,7 +25,7 @@
 import DropdownSettingListItem from './DropdownSettingListItem.vue'
 
 export default {
-    components: {DropdownSettingListItem},
+    components: { DropdownSettingListItem },
 
     emits: ['select-menu'],
 
@@ -74,8 +73,7 @@ export default {
                     label: 'Keyboard shortcuts',
                     icon: 'calculator',
                     withSubMenu: false
-                }
-                ,
+                },
                 {
                     id: 'restricted_mode',
                     label: 'Restricted Mode: Off',
