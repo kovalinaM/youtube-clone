@@ -1,8 +1,8 @@
 <template>
     <DropdownSettingsHeader title="Choose your location" @back="$emit('select-menu', 'main')"></DropdownSettingsHeader>
     <section class="py-2">
-        <ul>
-            <DropdownSettingListItem v-for="locationName, locationId in locations" :key="locationId" :label="locationName"
+        <ul class="max-h-96 overflow-auto">
+            <DropdownSettingListItem v-for="(locationName, locationId) in locations" :key="locationId" :label="locationName"
                 :active="locationId === selectedLocationId" @click="selectedLocationId = locationId">
             </DropdownSettingListItem>
         </ul>
@@ -21,7 +21,7 @@ export default {
     data() {
         return {
             selectedLocationId: 0,
-            locations: ['United States', 'Russia']
+            locations: ['United States', 'Russia', 'Russia', 'Russia', 'Russia', 'Russia', 'Russia', 'Russia', 'Russia']
         }
     },
 }
