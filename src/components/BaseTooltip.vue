@@ -18,37 +18,46 @@
 <script>
 export default {
     props: {
-        text: String
+        text: String,
+        top: Boolean,
+        right: Boolean,
+        left: Boolean
     },
 
     data() {
         return {
-            isShown: false
-        }
-    },
-
-    computed: {
-        classes() {
-            return [
+            isShown: false,
+            classes: [
                 'bg-gray-600',
                 'bg-opacity-80',
                 'rounded-sm',
                 'text-white',
-                'text-sm',
+                'text-xs',
                 'whitespace-nowrap',
                 'p-2',
                 'absolute',
-                'top-14',
-                'left-1/2',
-                'transform',
-                '-translate-x-1/2'
-            ]
+                ...this.getPositionClasses()
+            ]        
         }
     },
 
     methods: {
         toggle() {
             this.isShown = !this.isShown;
+        },
+
+        getPositionClasses() {
+            const topClass = this.top ? 'bottom-12' : 'top-14';
+
+            if(this.right) {
+                return [topClass, 'left-0']
+            }
+
+            if(this.left) {
+                return [topClass, 'right-0']
+            }
+
+            return [topClass, 'left-1/2', '-translate-x-1/2']
         }
     }
 }
