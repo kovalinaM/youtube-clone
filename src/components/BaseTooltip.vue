@@ -27,22 +27,25 @@ export default {
     data() {
         return {
             isShown: false,
-            classes:  [
+
+            classes: [
                 'bg-gray-600',
                 'bg-opacity-80',
                 'rounded-sm',
                 'text-white',
-                'text-sm',
+                'text-xs',
                 'whitespace-nowrap',
                 'p-2',
-                'transform',
                 'absolute',
                 ...this.getPositionClasses()
-            ]
+            ]        
         }
     },
 
     methods: {
+        toggle() {
+            this.isShown = !this.isShown;
+        },
         getPositionClasses() {
             const topClass = this.top ? 'bottom-12' : 'top-14';
 
@@ -53,8 +56,7 @@ export default {
             if(this.left) {
                 return [topClass, 'right-0']
             }
-
-            return [topClass,   'left-1/2', '-translate-x-1/2',]
+            return [topClass, 'left-1/2', '-translate-x-1/2']
         }
     }
 }
