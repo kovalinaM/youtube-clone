@@ -10,7 +10,8 @@
     </div>
     <TheSearchMobile 
       v-if="isMobileSearchShown" 
-      @close="closeMobileSearch"></TheSearchMobile>
+      @close="closeMobileSearch">
+    </TheSearchMobile>
     <div 
       v-else
       class="hidden sm:flex items-center justify-end p-2.5 pl-8 md:pl-12 md:px-8 flex-1 lg:px-0 lg:w-1/2 max-w-screen-md">
