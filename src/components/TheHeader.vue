@@ -55,7 +55,6 @@ import TheSearchMobile from './TheSearchMobile.vue'
 import ButtonLogin from './ButtonLogin.vue'
 import BaseIcon from './BaseIcon.vue'
 import BaseTooltip from './BaseTooltip.vue'
-import TheSearchMobile from './TheSearchMobile.vue'
 
 export default {
   components: { TheDropdownApps, TheDropdownSettings, LogoMain, TheSearch, TheSearchMobile, ButtonLogin, BaseIcon, BaseTooltip },
