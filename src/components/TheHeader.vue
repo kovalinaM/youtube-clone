@@ -8,8 +8,11 @@
         <LogoMain></LogoMain>
       </div>
     </div>
-    <TheSearchMobile></TheSearchMobile>
-    <div
+    <TheSearchMobile 
+      v-if="isMobileSearchShown" 
+      @close="closeMobileSearch"></TheSearchMobile>
+    <div 
+      v-else
       class="hidden sm:flex items-center justify-end p-2.5 pl-8 md:pl-12 md:px-8 flex-1 lg:px-0 lg:w-1/2 max-w-screen-md">
       <TheSearch></TheSearch>
       <BaseTooltip text="Search with your voice">
@@ -29,7 +32,9 @@
         </button>
       </BaseTooltip>
       <BaseTooltip text="Search">
-        <button class="sm:hidden p-2 focus:outline-none">
+        <button 
+          @click.stop="isMobileSearchActive = true" 
+          class="sm:hidden p-2 focus:outline-none">
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd"
               d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
@@ -59,6 +64,40 @@ export default {
 
   emits: {
     toggleSidebar: null
+  },
+  data() {
+    return {
+      isSmallScreen: false,
+      isMobileSearchActive: false
+    }
+  },
+
+  computed: {
+    isMobileSearchShown() {
+      return this.isSmallScreen && this.isMobileSearchActive;
+    }
+  },
+
+  mounted() {
+    this.onResize();
+
+    window.addEventListener('resize', this.onResize)
+  },
+
+  methods: {
+    onResize() {
+      if (window.innerWidth < 640) {
+        this.isSmallScreen = true;
+        return
+      } 
+
+      this.closeMobileSearch();
+      this.isSmallScreen = false;
+    },
+
+    closeMobileSearch() {
+      this.isMobileSearchActive = false
+    }
   }
 }
 </script>
