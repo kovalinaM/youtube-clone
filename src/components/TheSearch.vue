@@ -1,6 +1,7 @@
 <template>
     <div class="flex w-full mr-2">
         <TheSearchInput></TheSearchInput>
+    <!-- </div> -->
         <TheSearchButton></TheSearchButton>
     </div>
 </template>
