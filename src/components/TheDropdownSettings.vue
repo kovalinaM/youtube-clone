@@ -6,7 +6,6 @@
             </button>
         </BaseTooltip>
         <transition enter-from-class="transition opacity-0 scale-95" enter-active-class="transition ease-out duration-100"
-
             enter-to-class="transform opacity-100 scale-100" leave-from-class="transform opacity-100 scale-100"
             leave-active-class="transition ease-in duration-75" leave-to-class="transform opacity-0 scale-95">
             <div 
@@ -15,11 +14,7 @@
                 @keydown.esc="close" 
                 tabindex="-1" 
                 :class="dropdownClasses">
-                <TheDropdownSettingsMain v-if="selectedMenu == 'main'" @select-menu="showSelectedMenu"></TheDropdownSettingsMain>
-                <TheDropdownSettingsAppearance v-else-if="selectedMenu == 'appearance'"  @select-menu="showSelectedMenu"></TheDropdownSettingsAppearance>
-                <TheDropdownSettingsLanguage v-else-if="selectedMenu == 'language'"  @select-menu="showSelectedMenu"></TheDropdownSettingsLanguage>
-                <TheDropdownSettingsLocation v-else-if="selectedMenu == 'location'"  @select-menu="showSelectedMenu"></TheDropdownSettingsLocation>
-                <TheDropdownSettingsRestrictedMode v-else-if="selectedMenu == 'restricted_mode'"  @select-menu="showSelectedMenu"></TheDropdownSettingsRestrictedMode>
+                <component :is="menu" @select-menu="showSelectedMenu"/>
             </div>
         </transition>
     </div>
@@ -63,6 +58,20 @@ export default {
             }
 
         })
+    },
+
+    computed: {
+        menu() {
+            const menuComponentNames = {
+                main: 'TheDropdownSettingsMain',
+                appearance: 'TheDropdownSettingsAppearance',
+                language: 'TheDropdownSettingsLanguage',
+                location: 'TheDropdownSettingsLocation',
+                restricted_mode: 'TheDropdownSettingsRestrictedMode'
+            }
+
+            return menuComponentNames[this.selectedMenu]
+        }
     },
 
     watch: {
