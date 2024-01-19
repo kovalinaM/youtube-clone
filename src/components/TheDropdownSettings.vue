@@ -8,13 +8,9 @@
         <transition enter-from-class="transition opacity-0 scale-95" enter-active-class="transition ease-out duration-100"
             enter-to-class="transform opacity-100 scale-100" leave-from-class="transform opacity-100 scale-100"
             leave-active-class="transition ease-in duration-75" leave-to-class="transform opacity-0 scale-95">
-            <div 
-                v-show="isOpen" 
-                ref="dropdown" 
-                @keydown.esc="close" 
-                tabindex="-1" 
-                :class="dropdownClasses">
-                <component :is="menu" @select-menu="showSelectedMenu"/>
+            <div v-show="isOpen" ref="dropdown" @keydown.esc="close" tabindex="-1" :class="dropdownClasses">
+                <component :is="menu" @select-menu="showSelectedMenu" @select-option="selectOption"
+                    :selected-options="selectedOptions" />
             </div>
         </transition>
     </div>
@@ -30,12 +26,34 @@ import BaseIcon from './BaseIcon.vue'
 import BaseTooltip from './BaseTooltip.vue'
 
 export default {
-    components: { TheDropdownSettingsMain, TheDropdownSettingsAppearance, TheDropdownSettingsLanguage, TheDropdownSettingsLocation,TheDropdownSettingsRestrictedMode, BaseIcon, BaseTooltip, TheDropdownSettingsRestrictedMode },
+    components: { TheDropdownSettingsMain, TheDropdownSettingsAppearance, TheDropdownSettingsLanguage, TheDropdownSettingsLocation, TheDropdownSettingsRestrictedMode, BaseIcon, BaseTooltip, TheDropdownSettingsRestrictedMode },
 
     data() {
         return {
             isOpen: false,
             selectedMenu: 'main',
+            selectedOptions: {
+                themeId: 0,
+                languageId: 0,
+                locationId: 0,
+                restrictedMode: false
+                // theme: {
+                //     id: 0,
+                //     text: 'Device theme'
+                // },
+                // language: {
+                //     id: 0,
+                //     text: 'English'
+                // },
+                // location: {
+                //     id: 0,
+                //     text: 'United States'
+                // },
+                // restrictedMode: {
+                //     enabled: false,
+                //     text: 'Off'
+                // }
+            },
             dropdownClasses: [
                 'z-10',
                 'absolute',
@@ -102,6 +120,10 @@ export default {
 
         toggle() {
             this.isOpen ? this.close() : this.open();
+        },
+
+        selectOption(option) {
+            this.selectedOptions[option.name] = option.value
         }
     }
 }

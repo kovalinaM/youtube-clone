@@ -4,11 +4,11 @@
         <div class="text-gray-500 text-xs p-3">Setting applies to this browser only</div>
         <ul>
             <DropdownSettingListItem 
-                v-for="(theme, themeId) in themes" 
+                v-for="(themeName, themeId) in themes" 
                 :key="themeId" 
-                :label="theme" 
-                :active="themeId == selectedThemeId" 
-                @click ="selectedThemeId = themeId"/>
+                :label="themeName" 
+                :active="themeId === selectedOptions.themeId"
+                @click="selectOption(themeId)"/>
         </ul>
     </section>
 </template>
@@ -20,17 +20,24 @@ import DropdownSettingsHeader from './DropdownSettingsHeader.vue';
 export default {
     components: { DropdownSettingListItem, DropdownSettingsHeader },
 
-    emits: ['select-menu'],
+    props: ['selectedOptions'],
+
+    emits: ['select-menu', 'select-option'],
 
     data() {
         return {
-            selectedThemeId: 0,
-            themes: [
-                'Use device theme',
-                'Dark theme',
-                'Light theme',
-            ]
+            themes: ['Use device theme', 'Dark theme', 'Light theme']
+            // themes: ['Device theme', 'Dark theme', 'Light theme']
         }
     },
+
+    methods: {
+        // selectOption(theme) {
+        //     this.$emit('select-option', {name: 'theme', value: theme})
+        // }
+        selectOption (themeId) {
+            this.$emit('select-option', { name: 'themeId', value: themeId })
+        }
+    }
 }
 </script>

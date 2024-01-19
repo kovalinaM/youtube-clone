@@ -2,8 +2,13 @@
     <DropdownSettingsHeader title="Choose your location" @back="$emit('select-menu', 'main')"></DropdownSettingsHeader>
     <section class="py-2">
         <ul class="max-h-96 overflow-auto">
-            <DropdownSettingListItem v-for="locationName, locationId in locations" :key="locationId" :label="locationName"
-                :active="locationId === selectedLocationId" @click="selectedLocationId = locationId">
+            <DropdownSettingListItem
+                v-for="locationName, locationId in locations" 
+                :key="locationId" 
+                :label="locationName"
+                :active="locationId === selectedOptions.locationId"
+                @click="selectOption(locationId)"
+                >
             </DropdownSettingListItem>
         </ul>
     </section>
@@ -16,7 +21,9 @@ import DropdownSettingsHeader from './DropdownSettingsHeader.vue'
 export default {
     components: { DropdownSettingListItem, DropdownSettingsHeader },
 
-    emits: ['select-menu'],
+    props:['selectedOptions'],
+
+    emits: ['select-menu', 'select-option'],
 
     data() {
         return {
@@ -24,5 +31,11 @@ export default {
             locations: ['United States', 'Russia']
         }
     },
+
+    methods: {
+        selectOption (locationId) {
+            this.$emit('select-option', { name: 'locationId', value: locationId })
+        }
+    }
 }
 </script>
