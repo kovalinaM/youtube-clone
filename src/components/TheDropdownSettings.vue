@@ -33,22 +33,19 @@ export default {
             isOpen: false,
             selectedMenu: 'main',
             selectedOptions: {
-                themeId: 0,
-                languageId: 0,
-                locationId: 0,
+                theme: {
+                    id: 0,
+                    text: 'Use device theme'
+                },
+                language: {
+                    id: 0,
+                    text: 'English'
+                },
+                location: {
+                    id: 0,
+                    text: 'United States'
+                },          
                 restrictedMode: false
-                // theme: {
-                //     id: 0,
-                //     text: 'Device theme'
-                // },
-                // language: {
-                //     id: 0,
-                //     text: 'English'
-                // },
-                // location: {
-                //     id: 0,
-                //     text: 'United States'
-                // },
                 // restrictedMode: {
                 //     enabled: false,
                 //     text: 'Off'
