@@ -1,15 +1,7 @@
 <template>
-    <DropdownSettingsHeader title="Choose your location" @back="$emit('select-menu', 'main')"></DropdownSettingsHeader>
+    <DropdownSettingsHeader title="Choose your location" @back="$emit('close')"></DropdownSettingsHeader>
     <section class="py-2">
         <ul class="max-h-96 overflow-auto">
-            <!-- <DropdownSettingListItem
-                v-for="locationName, locationId in locations" 
-                :key="locationId" 
-                :label="locationName"
-                :active="locationId === selectedOptions.locationId"
-                @click="selectOption(locationId)"
-                >
-            </DropdownSettingListItem> -->
             <DropdownSettingListItem
                 v-for="locationName, locationId in locations" 
                 :key="locationId" 
@@ -31,11 +23,10 @@ export default {
 
     props:['selectedOptions'],
 
-    emits: ['select-menu', 'select-option'],
+    emits: ['close', 'select-option'],
 
     data() {
         return {
-            // selectedLocationId: 0,
             locations: ['United States', 'Russia']
         }
     },
@@ -44,9 +35,6 @@ export default {
         selectOption (location) {
             this.$emit('select-option', { name: 'location', value: location })
         }
-        // selectOption (locationId) {
-        //     this.$emit('select-option', { name: 'locationId', value: locationId })
-        // }
     }
 }
 </script>
