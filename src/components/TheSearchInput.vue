@@ -3,10 +3,10 @@
         <input 
         type="text" 
         placeholder="Search"
+        v-bind="$attrs"
         :class="classes"
-        :value="query"
-        @input="$emit('update:query', $event.target.value)">
-        <button class="absolute top-0 right-0 h-full px-3 focus:outline-none" v-show="query" @click="$emit('update:query', '')">
+        v-model="searchQuery">
+        <button class="absolute top-0 right-0 h-full px-3 focus:outline-none" v-show="query" @click="searchQuery = ''">
             <BaseIcon name="x" class="w-5 h-5"></BaseIcon>
         </button>
     </div>
@@ -16,6 +16,8 @@
 <script>
 import BaseIcon from './BaseIcon.vue'
 export default {
+    inheritAttrs: false,
+
     components: {BaseIcon},
 
     props: ['query'],
@@ -39,10 +41,23 @@ export default {
         }
     },
 
+    computed: {
+        searchQuery: {
+            get() {
+                return this.query
+            },
+
+            set(searchQuery) {
+                this.$emit('update:query', searchQuery)
+            }
+        }
+    },
+
     mounted() {
         if(window.innerWidth < 640) {
             this.$el.focus();
         }
-    }
+    },
+
 }
 </script>
