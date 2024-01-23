@@ -3,8 +3,10 @@
         <input 
         type="text" 
         placeholder="Search"
-        :class="classes">
-        <button class="absolute top-0 right-0 h-full px-3 focus:outline-none">
+        :class="classes"
+        :value="query"
+        @input="$emit('update:query', $event.target.value)">
+        <button class="absolute top-0 right-0 h-full px-3 focus:outline-none" v-show="query" @click="$emit('update:query', '')">
             <BaseIcon name="x" class="w-5 h-5"></BaseIcon>
         </button>
     </div>
@@ -15,6 +17,11 @@
 import BaseIcon from './BaseIcon.vue'
 export default {
     components: {BaseIcon},
+
+    props: ['query'],
+
+    emits: ['update:query'],
+
     data() {
         return {
             classes: [
