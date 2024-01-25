@@ -1,8 +1,17 @@
 <template>
     <div class="relative w-full">
-        <input type="text" placeholder="Search" ref="input" :class="classes" :value="query" @focus="setState(true)"
-            @blur="setState(false)" @click="setState(true)" @keyup.esc="handleEsc" @input="updateQuery($event.target.value)">
-        <button class="absolute top-0 right-0 h-full px-3 focus:outline-none" v-show="query"  @click="updateQuery('')">
+        <input 
+            type="text" 
+            placeholder="Search" 
+            ref="input" 
+            :class="classes" 
+            :value="query" 
+            @focus="setState(true)"
+            @blur="setState(false)" 
+            @click="setState(true)" 
+            @keyup.esc="handleEsc" 
+            @input="updateQuery($event.target.value)">
+        <button class="absolute top-0 right-0 h-full px-3 focus:outline-none" v-show="query"  @click="clear">
             <BaseIcon name="x" class="w-5 h-5"></BaseIcon>
         </button>
     </div>
@@ -11,8 +20,6 @@
 <script>
 import BaseIcon from './BaseIcon.vue'
 export default {
-    inheritAttrs: false,
-
     components: { BaseIcon },
 
     props: ['query', 'hasResults'],
@@ -37,27 +44,27 @@ export default {
         }
     },
 
-    // computed: {
-    //     searchQuery: {
-    //         get() {
-    //             return this.query
-    //         },
-
-    //         set(searchQuery) {
-    //             this.$emit('update:query', searchQuery)
-    //         }
-    //     }
-    // },
-
     methods: {
+        onKeydown(event) {
+            const isInputFocused = this.$refs.input === document.activeElement
+
+            if(event.code === 'Slash' && !isInputFocused) {
+                event.preventDefault()
+
+                this.$refs.input.focus()
+            }
+        },
+
         updateQuery(query) {
             this.$emit('update:query', query)
             this.setState(this.isActive)
         },
+
         setState(isActive) {
             this.isActive = isActive
             this.$emit('change-state', isActive)
         },
+
         handleEsc() {
             this.removeSelection()
             if (this.isActive && this.hasResults) {
@@ -66,16 +73,29 @@ export default {
                 this.$refs.input.blur()
             }
         },
+
         removeSelection() {
             const end = this.$refs.input.value.length
             this.$refs.input.setSelectionRange(end, end)
+        },
+
+        clear() {
+            this.$refs.input.focus()
+
+            this.updateQuery('')
         }
     },
 
     mounted() {
         if (window.innerWidth < 640) {
-            this.$el.focus();
+            this.$refs.input.focus();
         }
+
+        document.addEventListener('keydown', this.onKeydown)
+    },
+
+    beforeUnmount() {
+        document.removeEventListener('keydown', this.onKeydown)
     },
 
 }
