@@ -8,20 +8,19 @@
         <LogoMain></LogoMain>
       </div>
     </div>
-    <TheSearchMobile 
-      v-if="isMobileSearchShown" 
-      @close="closeMobileSearch">
+    <TheSearchMobile v-if="isMobileSearchShown" @close="closeMobileSearch">
+      <TheSearch
+        :search-query="searchQuery"
+        @update-search-query="searchQuery = $event"
+      />
     </TheSearchMobile>
-    <div 
-      v-else
-      class="hidden sm:flex items-center justify-end p-2.5 pl-8 md:pl-12 md:px-8 flex-1 lg:px-0 lg:w-1/2 max-w-screen-md">
-      <TheSearch></TheSearch>
-      <BaseTooltip text="Search with your voice">
-        <button class="p-2 focus:outline-none p-2">
-          <BaseIcon name="microphone" class="w-5 h-5"></BaseIcon>
-        </button>
-      </BaseTooltip>
-    </div>
+    <TheSearchMain v-else>
+      <TheSearch
+        :search-query="searchQuery"
+        @update-search-query="searchQuery = $event"
+      />
+    </TheSearchMain>
+   
     <div :class="['flex', 'items-center', 'justify-end', 'lg:w-1/4', 'sm:space-x-3', 'p-2', 'sm:px-4', isMobileSearchShown ? 'opacity-0' : 'opacity-100']">
       <BaseTooltip text="Search with your voice">
         <button class="sm:hidden p-2 focus:outline-none">
@@ -52,18 +51,20 @@ import TheDropdownSettings from './TheDropdownSettings.vue'
 import LogoMain from './LogoMain.vue'
 import TheSearch from './TheSearch.vue'
 import TheSearchMobile from './TheSearchMobile.vue'
+import TheSearchMain from './TheSearchMain.vue'
 import ButtonLogin from './ButtonLogin.vue'
 import BaseIcon from './BaseIcon.vue'
 import BaseTooltip from './BaseTooltip.vue'
 
 export default {
-  components: { TheDropdownApps, TheDropdownSettings, LogoMain, TheSearch, TheSearchMobile, ButtonLogin, BaseIcon, BaseTooltip },
+  components: { TheDropdownApps, TheDropdownSettings, LogoMain, TheSearch, TheSearchMobile, TheSearchMain, ButtonLogin, BaseIcon, BaseTooltip },
 
   emits: {
     toggleSidebar: null
   },
   data() {
     return {
+      searchQuery: '',
       isSmallScreen: false,
       isMobileSearchActive: false,
       classes: [

@@ -3,10 +3,11 @@
         <div class="relative flex w-full">
             <TheSearchInput 
                 v-model:query="query" 
-                :has-results="results.length"
-                @change-state="toggleSearchResults"
-            />
-            <TheSearchResults v-show="isSearchResultsShown" :results="results" />
+                :has-results="results.length" 
+                @change-state="toggleSearchResults"             
+                @keyup.up="handlePreviousSearchResult"
+                @keyup.down="handleNextSearchResult" />
+            <TheSearchResults v-show="isSearchResultsShown" :results="results" :active-result-id="activeSearchResultId"/>
         </div>
         <TheSearchButton></TheSearchButton>
     </div>
@@ -20,10 +21,15 @@ import TheSearchResults from './TheSearchResults.vue'
 export default {
     components: { TheSearchInput, TheSearchButton, TheSearchResults },
 
+    props: ['searchQuery'],
+
+    emits: ['update-search-query'],
+
     data() {
         return {
-            query: '',
+            query: this.searchQuery,
             isSearchResultsShown: false,
+            activeSearchResultId: null,
             keywords: [
                 'new york',
                 'new york song',
@@ -53,14 +59,53 @@ export default {
         trimedQuery() {
             return this.query.replace(/\s+/g, ' ').trim();
         }
-        // isSearchResultsShown() {
-        //     return this.isSearchInputFocused && this.results.length
-        // }
+    },
+
+    watch: {
+        query(query) {
+            this.$emit('update-search-query', query)
+        }
     },
 
     methods: {
-        toggleSearchResults (isSearchInputActive) {
+        toggleSearchResults(isSearchInputActive) {
             this.isSearchResultsShown = isSearchInputActive && this.results.length
+        },
+
+        handlePreviousSearchResult() {
+            if(this.isSearchResultsShown) {
+                this.makePreviousSearchActive()
+            } else {
+                this.toggleSearchResults(true)
+            }
+        },
+
+        handleNextSearchResult() {
+            if(this.isSearchResultsShown) {
+                this.makeNextSearchActive()
+            }else {
+                this.toggleSearchResults(true)
+            }
+        },
+
+        makePreviousSearchActive() {
+            if(this.activeSearchResultId === null) {
+                this.activeSearchResultId = this.results.length -1
+            } else if(this.activeSearchResultId === 0) {
+                this.activeSearchResultId = null
+            } else {
+                this.activeSearchResultId--
+            }
+        },
+
+        makeNextSearchActive() {
+            if(this.activeSearchResultId === null) {
+                this.activeSearchResultId = 0
+            } else if(this.activeSearchResultId + 1 === this.results.length) {
+                this.activeSearchResultId = null
+            } else{
+                this.activeSearchResultId++
+            }
         }
     }
 }
