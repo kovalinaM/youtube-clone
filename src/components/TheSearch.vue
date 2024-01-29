@@ -8,6 +8,7 @@
                 @change-state="toggleSearchResults"             
                 @keyup.up="handlePreviousSearchResult"
                 @keyup.down="handleNextSearchResult"
+                @enter="selectSearchResult"
                 @keydown.up.prevent />
             <TheSearchResults 
                 v-show="isSearchResultsShown" 
@@ -17,7 +18,7 @@
                 @search-result-mouseleave="activeSearchResultId = null"
                 @search-result-click="selectSearchResult"/>
         </div>
-        <TheSearchButton></TheSearchButton>
+        <TheSearchButton @click.stop="selectSearchResult"></TheSearchButton>
     </div>
 </template>
 
@@ -29,15 +30,11 @@ import TheSearchResults from './TheSearchResults.vue'
 export default {
     components: { TheSearchInput, TheSearchButton, TheSearchResults },
 
-    props: ['searchQuery'],
-
-    emits: ['update-search-query'],
-
     data() {
         return {
             results: [],
-            query: this.searchQuery,
-            activeQuery: this.searchQuery,
+            query: '',
+            activeQuery: '',
             isSearchResultsShown: false,
             activeSearchResultId: null,
             keywords: [
@@ -61,22 +58,13 @@ export default {
         }
     },
 
-    watch: {
-        query(query) {
-            this.$emit('update-search-query', query)
-        }
-    },
-
     mounted() {
-        document.addEventListener('click', this.handleClick)
-    },
-
-    beforeUnmount() {
-        document.removeEventListener('click', this.handleClick)
+        window.addEventListener('click', this.onClickAndResize)
+        window.addEventListener('resize', this.onClickAndResize)
     },
 
     methods: {
-        handleClick() {
+        onClickAndResize() {
             this.toggleSearchResults(false)
         },
 
@@ -94,12 +82,13 @@ export default {
         },
 
         toggleSearchResults(isSearchInputActive) {
-            this.isSearchResultsShown = isSearchInputActive && this.results.length
+            this.isSearchResultsShown = isSearchInputActive && this.results.length > 0
         },
 
         handlePreviousSearchResult() {
             if(this.isSearchResultsShown) {
                 this.makePreviousSearchActive()
+                this.updateQueryWithSearchResult()
             } else {
                 this.toggleSearchResults(true)
             }
@@ -108,6 +97,7 @@ export default {
         handleNextSearchResult() {
             if(this.isSearchResultsShown) {
                 this.makeNextSearchActive()
+                this.updateQueryWithSearchResult()
             }else {
                 this.toggleSearchResults(true)
             }
@@ -121,8 +111,6 @@ export default {
             } else {
                 this.activeSearchResultId--
             }
-
-            this.updateQueryWithSearchResult()
         },
 
         makeNextSearchActive() {
@@ -134,7 +122,6 @@ export default {
                 this.activeSearchResultId++
             }
 
-            this.updateQueryWithSearchResult()
         },
 
         updateQueryWithSearchResult() {
@@ -143,12 +130,14 @@ export default {
             this.query = hasActiveSearchResult ? this.results[this.activeSearchResultId] : this.activeQuery
         },
 
-        selectSearchResult(searchResultId) {
-            this.query = this.results[searchResultId]
-
-            this.updateSearchResults()
+        selectSearchResult() {
+            this.query = this.activeSearchResultId
+                ? this.results[this.activeSearchResultId]
+                : this.query
 
             this.toggleSearchResults(false)
+
+            this.updateSearchResults()
         }
     }
 }

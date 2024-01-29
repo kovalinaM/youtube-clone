@@ -8,19 +8,11 @@
         <LogoMain></LogoMain>
       </div>
     </div>
-    <TheSearchMobile v-if="isMobileSearchShown" @close="closeMobileSearch">
-      <TheSearch
-        :search-query="searchQuery"
-        @update-search-query="searchQuery = $event"
-      />
-    </TheSearchMobile>
-    <TheSearchMain v-else>
-      <TheSearch
-        :search-query="searchQuery"
-        @update-search-query="searchQuery = $event"
-      />
-    </TheSearchMain>
-   
+    <TheSearchWrapper 
+      v-show="isSearchShown"
+      :is-small-screen="isSmallScreen" 
+      @close="closeMobileSearch"
+      /> 
     <div :class="['flex', 'items-center', 'justify-end', 'lg:w-1/4', 'sm:space-x-3', 'p-2', 'sm:px-4', isMobileSearchShown ? 'opacity-0' : 'opacity-100']">
       <BaseTooltip text="Search with your voice">
         <button class="sm:hidden p-2 focus:outline-none">
@@ -49,15 +41,13 @@
 import TheDropdownApps from './TheDropdownApps.vue'
 import TheDropdownSettings from './TheDropdownSettings.vue'
 import LogoMain from './LogoMain.vue'
-import TheSearch from './TheSearch.vue'
-import TheSearchMobile from './TheSearchMobile.vue'
-import TheSearchMain from './TheSearchMain.vue'
+import TheSearchWrapper from './TheSearchWrapper.vue'
 import ButtonLogin from './ButtonLogin.vue'
 import BaseIcon from './BaseIcon.vue'
 import BaseTooltip from './BaseTooltip.vue'
 
 export default {
-  components: { TheDropdownApps, TheDropdownSettings, LogoMain, TheSearch, TheSearchMobile, TheSearchMain, ButtonLogin, BaseIcon, BaseTooltip },
+  components: { TheDropdownApps, TheDropdownSettings, LogoMain, TheSearchWrapper, ButtonLogin, BaseIcon, BaseTooltip },
 
   emits: {
     toggleSidebar: null
@@ -79,6 +69,10 @@ export default {
   },
 
   computed: {
+    isSearchShown() {
+      return this.isMobileSearchShown || !this.isSmallScreen
+    },
+
     isMobileSearchShown() {
       return this.isSmallScreen && this.isMobileSearchActive;
     }

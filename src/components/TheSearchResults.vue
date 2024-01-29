@@ -2,10 +2,10 @@
     <div :class="classes">
         <ul>
             <li v-for="(text, id) in results" 
-                :key="text" :class="itemClasses(id)" 
+                :key="text" :class="getItemClasses(id)" 
                 @mouseenter="$emit('search-result-mouseenter', id)" 
                 @mouseleave="$emit('search-result-mouseleave')"
-                @click.stop="$emit('search-result-click', id)"
+                @click.stop="$emit('search-result-click')"
                 >{{text}}</li>
         </ul>
         <a href="#" :class="reportLinkClasses">Report search predictions</a>
@@ -43,9 +43,9 @@ export default {
         }
     },
 
-    computed: {
-        itemClasses() {
-            return resultId => [
+    methods: {
+        getItemClasses(resultId) {
+            return [
                 resultId === this.activeResultId ? 'bg-gray-100' : 'bg-transparent', 
                 'text-black', 
                 'px-3', 
