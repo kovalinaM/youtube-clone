@@ -1,7 +1,12 @@
 <template>
     <div :class="classes">
         <ul>
-            <li v-for="(text, id) in results" :key="text" :class="itemClasses(id)">{{text}}</li>
+            <li v-for="(text, id) in results" 
+                :key="text" :class="itemClasses(id)" 
+                @mouseenter="$emit('search-result-mouseenter', id)" 
+                @mouseleave="$emit('search-result-mouseleave')"
+                @click.stop="$emit('search-result-click', id)"
+                >{{text}}</li>
         </ul>
         <a href="#" :class="reportLinkClasses">Report search predictions</a>
     </div>
@@ -41,7 +46,7 @@ export default {
     computed: {
         itemClasses() {
             return resultId => [
-                resultId === this.activeResultId ? 'bg-gray-100' : 'hover:bg-gray-100', 
+                resultId === this.activeResultId ? 'bg-gray-100' : 'bg-transparent', 
                 'text-black', 
                 'px-3', 
                 'py-1', 
@@ -50,6 +55,5 @@ export default {
             ]
         } 
     }
-
 }
 </script>

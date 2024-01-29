@@ -9,7 +9,13 @@
                 @keyup.up="handlePreviousSearchResult"
                 @keyup.down="handleNextSearchResult"
                 @keydown.up.prevent />
-            <TheSearchResults v-show="isSearchResultsShown" :results="results" :active-result-id="activeSearchResultId"/>
+            <TheSearchResults 
+                v-show="isSearchResultsShown" 
+                :results="results" 
+                :active-result-id="activeSearchResultId"
+                @search-result-mouseenter="activeSearchResultId = $event"
+                @search-result-mouseleave="activeSearchResultId = null"
+                @search-result-click="selectSearchResult"/>
         </div>
         <TheSearchButton></TheSearchButton>
     </div>
@@ -61,7 +67,19 @@ export default {
         }
     },
 
+    mounted() {
+        document.addEventListener('click', this.handleClick)
+    },
+
+    beforeUnmount() {
+        document.removeEventListener('click', this.handleClick)
+    },
+
     methods: {
+        handleClick() {
+            this.toggleSearchResults(false)
+        },
+
         updateSearchResults() {
             this.activeSearchResultId = null
             this.activeQuery = this.query
@@ -123,6 +141,14 @@ export default {
             const hasActiveSearchResult = this.activeSearchResultId != null
 
             this.query = hasActiveSearchResult ? this.results[this.activeSearchResultId] : this.activeQuery
+        },
+
+        selectSearchResult(searchResultId) {
+            this.query = this.results[searchResultId]
+
+            this.updateSearchResults()
+
+            this.toggleSearchResults(false)
         }
     }
 }

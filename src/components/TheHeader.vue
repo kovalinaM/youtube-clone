@@ -62,6 +62,7 @@ export default {
   emits: {
     toggleSidebar: null
   },
+  
   data() {
     return {
       searchQuery: '',

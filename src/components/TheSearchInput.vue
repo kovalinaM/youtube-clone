@@ -7,8 +7,7 @@
             :class="classes" 
             :value="query" 
             @focus="setState(true)"
-            @blur="setState(false)" 
-            @click="setState(true)" 
+            @click.stop="setState(true)" 
             @keyup.esc="handleEsc" 
             @input="updateQuery($event.target.value)">
         <button class="absolute top-0 right-0 h-full px-3 focus:outline-none" v-show="query"  @click="clear">
