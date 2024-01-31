@@ -12,16 +12,18 @@
           <BaseIcon name="microphone" class="w-5 h-5"></BaseIcon>
         </button>
       </BaseTooltip>
+      <BaseModal/>
     </div>
 </template>
 
 <script>
 import TheSearch from './TheSearch.vue'
+import BaseModal from './BaseModal.vue'
 import BaseTooltip from './BaseTooltip.vue'
 import BaseIcon from './BaseIcon.vue'
 
 export default {
-    components: {TheSearch, BaseTooltip, BaseIcon},
+    components: {TheSearch, BaseModal, BaseTooltip, BaseIcon},
 
     props: ['isSmallScreen'],
 
