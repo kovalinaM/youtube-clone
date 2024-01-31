@@ -11,6 +11,7 @@
     <TheSearchWrapper 
       v-show="isSearchShown"
       :is-small-screen="isSmallScreen" 
+      
       @close="closeMobileSearch"
       /> 
     <div :class="['flex', 'items-center', 'justify-end', 'lg:w-1/4', 'sm:space-x-3', 'p-2', 'sm:px-4', isMobileSearchShown ? 'opacity-0' : 'opacity-100']">
@@ -38,6 +39,7 @@
 </template>
 
 <script>
+import {computed} from 'vue'
 import TheDropdownApps from './TheDropdownApps.vue'
 import TheDropdownSettings from './TheDropdownSettings.vue'
 import LogoMain from './LogoMain.vue'
@@ -52,10 +54,16 @@ export default {
   emits: {
     toggleSidebar: null
   },
+
+  provide() {
+    return {
+      isMobileSearchActive: computed(() => this.isMobileSearchActive)
+    }
+  },
+
   
   data() {
     return {
-      searchQuery: '',
       isSmallScreen: false,
       isMobileSearchActive: false,
       classes: [

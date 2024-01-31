@@ -6,7 +6,7 @@
                 @mouseenter="$emit('search-result-mouseenter', id)" 
                 @mouseleave="$emit('search-result-mouseleave')"
                 @click.stop="$emit('search-result-click')"
-                >{{text}}</li>
+                ><span @mouseenter="$emit('search-result-mouseenter', id)">{{text}}</span></li>
         </ul>
         <a href="#" :class="reportLinkClasses">Report search predictions</a>
     </div>

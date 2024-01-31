@@ -22,6 +22,8 @@ import BaseIcon from './BaseIcon.vue'
 export default {
     components: { BaseIcon },
 
+    inject: ['isMobileSearchActive'],
+
     props: ['query', 'hasResults'],
 
     emits: ['update:query', 'change-state', 'enter'],
@@ -92,6 +94,14 @@ export default {
             this.$refs.input.focus()
 
             this.updateQuery('')
+        }
+    },
+
+    watch: {
+        'isMobileSearchActive.value'(isMobileSearchActive) {
+            if(this.isMobileSearchActive) {
+                this.$nextTick(() => this.$refs.input.focus())
+            }
         }
     },
 

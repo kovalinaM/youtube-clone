@@ -4,6 +4,7 @@
             <TheSearchInput 
                 v-model:query="query" 
                 :has-results="results.length" 
+
                 @update:query="updateSearchResults"
                 @change-state="toggleSearchResults"             
                 @keyup.up="handlePreviousSearchResult"
@@ -29,6 +30,8 @@ import TheSearchResults from './TheSearchResults.vue'
 
 export default {
     components: { TheSearchInput, TheSearchButton, TheSearchResults },
+
+  
 
     data() {
         return {
