@@ -1,12 +1,17 @@
 <template>
     <BaseModal>
         <p class="text-2xl mb-52">
-            Microphone off. Try again.
+            {{ text }}
         </p>
-        <button class="w-16 h-16 mx-auto bg-gray-300 rounded-full text-black flex justify-center items-center relative focus:outline-none">
-            <BaseIcon name="microphone"></BaseIcon>
-        </button>
-        <div class="text-center text-sm text-gray-500 mt-4">
+        <div class="flex justify-center items-center">
+            <span 
+                v-show="isListening" 
+                :class="buttonAnimationClasses"/>
+            <button :class="buttonClasses" @click="toggleRecording">
+                <BaseIcon name="microphone"></BaseIcon>
+            </button>
+        </div>
+        <div :class="buttonHintClasses">
             Tap the microphone to try again.
         </div>
     </BaseModal>
@@ -17,6 +22,103 @@ import BaseModal from './BaseModal.vue'
 import BaseIcon from './BaseIcon.vue'
 
 export default {
-    components: {BaseModal, BaseIcon}
+    components: { BaseModal, BaseIcon },
+
+    data() {
+        return {
+            isQuiet: false,
+            isListening: true,
+            isRecording: false,
+            recordingTimeout: null
+        }
+    },
+
+    computed: {
+
+        text() {
+            if(this.isQuiet) {
+                return `Didn't hear that. Try again.`
+            }
+
+            if(this.isListening || this.isRecording) {
+                return 'Listening...'
+            }
+
+            return 'Microphone off. Try again.'
+        },
+
+        buttonClasses() {
+            return [
+                this.isListening ? 'bg-red-600' : 'bg-gray-300',
+                this.isListening ? 'text-white' : 'text-black',
+                'w-16',
+                'h-16',
+                'mx-auto',
+                'rounded-full',
+                'flex',
+                'justify-center',
+                'items-center',
+                'relative',
+                'focus:outline-none'
+            ]
+        },
+
+        buttonHintClasses() {
+            return [
+                this.isListening ? 'invisible' : 'visible',
+                'text-center',
+                'text-sm',
+                'text-gray-500',
+                'mt-4'
+            ]
+        },
+
+        buttonAnimationClasses() {
+            return [
+                this.isRecording ? 'bg-gray-300' : 'border border-gray-300',
+                'animate-ping', 
+                'absolute', 
+                'w-14', 
+                'h-14', 
+                'rounded-full' 
+            ]
+        }
+    },
+
+    beforeUnmount() {
+        clearTimeout(this.recordingTimeout)
+    },
+
+    mounted() {
+        this.handleRecordingTimeout()
+    },
+
+    methods: {
+        toggleRecording() {
+            clearTimeout(this.recordingTimeout)
+            this.isQuiet = false 
+            
+            if(this.isRecording) {
+                this.isListening = false;
+                this.isRecording = false;
+            } else if(this.isListening){
+                this.isRecording = true
+            }  else {
+                this.isListening = true
+            }
+
+            this.handleRecordingTimeout()
+        },
+
+        handleRecordingTimeout() {
+            if(this.isListening || this.isRecording) {
+                this.recordingTimeout = setTimeout(() => {
+                    this.isQuiet = true
+                    this.isListening = false 
+                    this.isRecording = false
+                }, 5000)
+            }
+        }
+    }
 }
 </script>
