@@ -13,6 +13,10 @@
                 }}</label>
             </div>
         </div>
+        <div class="text-black text-sm mt-6">
+            <textarea v-model="searchPredictionsDetails" placeholder="Provide additional details (optional)"
+        class="border rounded0sm pt-2 pb-5 px-2 resize-none w-full focus:outline-none" />
+        </div>
         <template #footer="{ close }">
             <BaseButton @click="close" class="ml-auto">Cancel</BaseButton>
             <BaseButton class="ml-1 text-gray-400 cursor-auto" disabled>Report</BaseButton>
@@ -26,7 +30,7 @@ import BaseButton from './BaseButton.vue'
 import TheSearchPredictionsList from './TheSearchPredictionsList.vue'
 
 export default {
-    components: { BaseModal, TheSearchPredictionsList, BaseButton },
+    components: { BaseModal, TheSearchPredictionsList, BaseButton},
 
     data() {
         return {
@@ -43,6 +47,7 @@ export default {
                 'new york full movie',
                 'new york nagaram'
             ],
+            searchPredictionsDetails: '',
             selectedSearchPredictionCategory: null,
             searchPredictionCategories: [
                 'Hateful',
