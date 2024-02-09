@@ -5,7 +5,7 @@
         </p>
         <TheSearchPredictionsList v-model="selectedSearchPredictions" :search-predictions="searchPredictions" />
         <p class="text-xs text-gray-600 mt-5">The selected predictions are:</p>
-        <div class="space-y-3 text-black text-sm mt-5">
+        <div class="space-y-3 text-black text-sm mt-3">
             <div v-for="(label, index) in searchPredictionCategories" :key="label" class="flex items-center">
                 <input type="radio" class="h-5 w-5 cursor-pointer" :id="`search-prediction-category-${index}`"
                     :value="label" v-model="selectedSearchPredictionCategory" />
