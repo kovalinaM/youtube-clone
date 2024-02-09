@@ -3,11 +3,17 @@
         <p class="text-base text-black tracking-wide">
             Report search predictions
         </p>
-        <TheSearchPredictionsList
-      v-model="selectedSearchPredictions"
-      :search-predictions="searchPredictions"
-    />
-        <template #footer="{close}">
+        <TheSearchPredictionsList v-model="selectedSearchPredictions" :search-predictions="searchPredictions" />
+        <p class="text-xs text-gray-600 mt-5">The selected predictions are:</p>
+        <div class="space-y-3 text-black text-sm mt-5">
+            <div v-for="(label, index) in searchPredictionCategories" :key="label" class="flex items-center">
+                <input type="radio" class="h-5 w-5 cursor-pointer" :id="`search-prediction-category-${index}`"
+                    :value="label" v-model="selectedSearchPredictionCategory" />
+                <label :for="`search-prediction-category-${index}`" class="pl-4 cursor-pointer flex-grow">{{ label
+                }}</label>
+            </div>
+        </div>
+        <template #footer="{ close }">
             <BaseButton @click="close" class="ml-auto">Cancel</BaseButton>
             <BaseButton class="ml-1 text-gray-400 cursor-auto" disabled>Report</BaseButton>
         </template>
@@ -20,7 +26,7 @@ import BaseButton from './BaseButton.vue'
 import TheSearchPredictionsList from './TheSearchPredictionsList.vue'
 
 export default {
-    components: { BaseModal,TheSearchPredictionsList, BaseButton},
+    components: { BaseModal, TheSearchPredictionsList, BaseButton },
 
     data() {
         return {
@@ -37,6 +43,14 @@ export default {
                 'new york full movie',
                 'new york nagaram'
             ],
+            selectedSearchPredictionCategory: null,
+            searchPredictionCategories: [
+                'Hateful',
+                'Sexually Explicit',
+                'Violent',
+                'Dangerous and harmful activity',
+                'Other'
+            ]
         }
     }
 }

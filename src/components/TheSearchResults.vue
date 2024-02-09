@@ -8,7 +8,11 @@
         </ul>
         <a href="#" :class="reportLinkClasses" @click="openSearchPredictionsModal">Report search predictions</a>
         <teleport to="body">
-            <TheModalSearchPredictions v-if=" isSearchPredictionsModalOpen" @close=" isSearchPredictionsModalOpen = false"></TheModalSearchPredictions>
+            <TheModalSearchPredictions 
+                v-if="isSearchPredictionsModalOpen" 
+                :search-predictions="results"
+                @close=" isSearchPredictionsModalOpen = false"
+                />
         </teleport>
     </div>
 </template>
@@ -20,6 +24,12 @@ export default {
     components: { TheModalSearchPredictions },
 
     props: ['results', 'activeResultId'],
+
+    emits: [
+        'search-result-mouseenter',
+        'search-result-mouseleave',
+        'search-result-click'
+    ],
 
     data() {
         return {
